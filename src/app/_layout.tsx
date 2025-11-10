@@ -31,7 +31,7 @@ function DrawerLayout() {
         <Drawer.Screen
           name="index"
           options={{
-            title: "Início",
+            title: "Início", headerShown: false,
             drawerIcon: ({ color, size }) => (
               <Feather name="home" color={color} size={size} />
             ),
