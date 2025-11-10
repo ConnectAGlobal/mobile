@@ -1,86 +1,93 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 
 export default function Home() {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>🚀 Bem-vindo ao ConnectA!</Text>
+    <LinearGradient
+      colors={["#0077b6", "#00b4d8", "#90e0ef"]}
+      style={styles.gradient}
+    >
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/images/foguete.png")} 
+          style={styles.logo}
+          resizeMode="contain"
+        />
 
-      <Text style={styles.subtitle}>
-        A plataforma que conecta gerações e impulsiona o futuro do trabalho.
-      </Text>
+        <Text style={styles.title}>ConnectA</Text>
+        <Text style={styles.subtitle}>Conectando gerações. Criando futuros.</Text>
 
-      <Text style={styles.paragraph}>
-        O <Text style={styles.highlight}>ConnectA</Text> prepara jovens e profissionais para as 
-        carreiras do amanhã, unindo aprendizado, mentoria e tecnologia. 
-        Uma ponte entre experiência e inovação — com IA que potencializa, 
-        não substitui, o ser humano.
-      </Text>
+        <Text style={styles.paragraph}>
+          Uma plataforma que une jovens e profissionais experientes para
+          reinventar o futuro do trabalho. Com IA, mentoria e aprendizado
+          inteligente, o ConnectA transforma experiência em oportunidade.
+        </Text>
 
-      <Text style={styles.paragraph}>
-        🌍 Promove inclusão e reduz desigualdades (ODS 10).{"\n"}
-        🤖 Usa IA Generativa para transformar experiências em desafios.{"\n"}
-        🧩 Integra microsserviços em Java e .NET com foco em requalificação e matching inteligente.
-      </Text>
-
-      <Link href="/mentores" asChild>
-        <TouchableOpacity style={styles.startButton}>
-          <Text style={styles.startButtonText}>Começar</Text>
-        </TouchableOpacity>
-      </Link>
-    </ScrollView>
+        {/* BOTÃO COMEÇAR */}
+        <Link href="/mentores" asChild>
+          <TouchableOpacity style={styles.startButton}>
+            <Text style={styles.startButtonText}>Começar 🚀</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradient: {
+    flex: 1,
+  },
   container: {
-    flexGrow: 1,
-    backgroundColor: "#f9f9f9",
+    flex: 1,
+    padding: 30,
     alignItems: "center",
     justifyContent: "center",
-    padding: 25,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 36,
     fontWeight: "bold",
-    color: "#0077b6",
-    marginBottom: 10,
+    color: "#fff",
     textAlign: "center",
+    letterSpacing: 1.5,
   },
   subtitle: {
     fontSize: 18,
-    textAlign: "center",
-    color: "#333",
+    color: "#e0f7ff",
+    marginTop: 8,
     marginBottom: 20,
+    textAlign: "center",
+    fontStyle: "italic",
   },
   paragraph: {
     fontSize: 16,
-    color: "#555",
-    textAlign: "justify",
-    lineHeight: 22,
-    marginBottom: 15,
-  },
-  highlight: {
-    color: "#0077b6",
-    fontWeight: "bold",
+    color: "#f5f5f5",
+    textAlign: "center",
+    lineHeight: 24,
+    paddingHorizontal: 10,
+    marginBottom: 40,
   },
   startButton: {
-    backgroundColor: "#0077b6",
+    backgroundColor: "#023e8a",
     paddingVertical: 14,
-    paddingHorizontal: 40,
-    borderRadius: 12,
-    marginTop: 20,
+    paddingHorizontal: 50,
+    borderRadius: 30,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
   startButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
-    textTransform: "uppercase",
     letterSpacing: 1,
   },
 });
