@@ -1,96 +1,105 @@
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, Image, StyleSheet, Linking, TouchableOpacity, ScrollView } from "react-native";
+
+const integrantes = [
+  {
+    nome: "Pedro Henrique dos Santos",
+    rm: "559064",
+    github: "https://github.com/Pedro-Henrique3216",
+    imagem: "https://avatars.githubusercontent.com/u/137585699?v=4",
+  },
+  {
+    nome: "Vinícius de Oliveira Coutinho",
+    rm: "556182",
+    github: "https://github.com/ViniOC",
+    imagem: "https://avatars.githubusercontent.com/u/103922053?v=4",
+  },
+  {
+    nome: "Thiago Thomaz Sales Conceição",
+    rm: "557992",
+    github: "https://github.com/ThiagoThmaz",
+    imagem: "https://avatars.githubusercontent.com/u/142420181?v=4",
+  },
+];
 
 export default function Equipe() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>👥 Equipe ConnectA</Text>
+      <Text style={styles.title}>Equipe ConnectA 💡</Text>
+      <Text style={styles.subtitle}>
+        Conheça os desenvolvedores por trás do projeto
+      </Text>
 
-      <View style={styles.memberCard}>
-        {/* Espaço reservado para imagem */}
-        <View style={styles.imagePlaceholder}>
-          {/* Exemplo futuro: 
-          <Image source={require("../assets/vinicius.jpg")} style={styles.image} /> 
-          */}
-        </View>
-        <View>
-          <Text style={styles.memberName}>Vinicius Coutinho</Text>
-          <Text style={styles.memberRole}>👩‍💻 Desenvolvedor Front-end</Text>
-        </View>
-      </View>
+      {integrantes.map((membro, index) => (
+        <View key={index} style={styles.card}>
+          <Image source={{ uri: membro.imagem }} style={styles.avatar} />
+          <View style={styles.info}>
+            <Text style={styles.nome}>{membro.nome}</Text>
+            <Text style={styles.rm}>RM: {membro.rm}</Text>
 
-      <View style={styles.memberCard}>
-        <View style={styles.imagePlaceholder}>
-          {/* <Image source={require("../assets/thiago.jpg")} style={styles.image} /> */}
+            <TouchableOpacity onPress={() => Linking.openURL(membro.github)}>
+              <Text style={styles.github}>🔗 GitHub</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <Text style={styles.memberName}>Thiago Sales</Text>
-          <Text style={styles.memberRole}>👨‍💻 Desenvolvedor Full Stack</Text>
-        </View>
-      </View>
-
-      <View style={styles.memberCard}>
-        <View style={styles.imagePlaceholder}>
-          {/* <Image source={require("../assets/pedro.jpg")} style={styles.image} /> */}
-        </View>
-        <View>
-          <Text style={styles.memberName}>Pedro Henrique</Text>
-          <Text style={styles.memberRole}>👨‍💻 Desenvolvedor Back-end</Text>
-        </View>
-      </View>
+      ))}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
     paddingVertical: 40,
-    backgroundColor: "#f9f9f9",
+    alignItems: "center",
+    backgroundColor: "#f5f9ff",
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#0077b6",
-    marginBottom: 30,
+    color: "#03045e",
+    marginBottom: 5,
   },
-  memberCard: {
+  subtitle: {
+    fontSize: 15,
+    color: "#555",
+    marginBottom: 25,
+  },
+  card: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     width: "85%",
-    padding: 15,
     borderRadius: 15,
-    marginBottom: 20,
+    padding: 15,
+    marginBottom: 15,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
-    elevation: 4,
+    elevation: 3,
   },
-  imagePlaceholder: {
+  avatar: {
     width: 70,
     height: 70,
-    borderRadius: 35,
-    backgroundColor: "#d0e8ff",
+    borderRadius: 50,
     marginRight: 15,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  image: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+  info: {
+    flex: 1,
   },
-  memberName: {
-    fontSize: 18,
-    fontWeight: "bold",
+  nome: {
+    fontSize: 17,
+    fontWeight: "600",
     color: "#023e8a",
   },
-  memberRole: {
+  rm: {
     fontSize: 14,
     color: "#555",
-    marginTop: 3,
+    marginTop: 2,
+  },
+  github: {
+    fontSize: 15,
+    color: "#0077b6",
+    marginTop: 6,
+    fontWeight: "500",
   },
 });
