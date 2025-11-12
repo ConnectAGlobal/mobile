@@ -41,6 +41,7 @@ function DrawerLayout() {
           name="login"
           options={{
             headerShown: false,
+            drawerItemStyle: { display: 'none' },
             drawerIcon: ({ color, size }) => (
               <Feather name="home" color={color} size={size} />
             ),
@@ -50,6 +51,7 @@ function DrawerLayout() {
           name="cadastro"
           options={{
             headerShown: false,
+            drawerItemStyle: { display: 'none' }, 
             drawerIcon: ({ color, size }) => (
               <Feather name="home" color={color} size={size} />
             ),
