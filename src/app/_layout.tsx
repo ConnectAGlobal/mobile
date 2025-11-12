@@ -38,6 +38,24 @@ function DrawerLayout() {
           }}
         />
         <Drawer.Screen
+          name="login"
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color, size }) => (
+              <Feather name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="cadastro"
+          options={{
+            headerShown: false,
+            drawerIcon: ({ color, size }) => (
+              <Feather name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
           name="commit"
           options={{
             title: "Sobre o App",

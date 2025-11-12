@@ -10,7 +10,7 @@ export default function Home() {
     >
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/foguete.png")} 
+          source={require("../assets/images/foguete.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -24,12 +24,11 @@ export default function Home() {
           inteligente, o ConnectA transforma experiência em oportunidade.
         </Text>
 
-        {/* BOTÃO COMEÇAR */}
-        <Link href="/mentores" asChild>
+        <Link href={"/login" as any} asChild>
           <TouchableOpacity style={styles.startButton}>
             <Text style={styles.startButtonText}>Começar 🚀</Text>
           </TouchableOpacity>
-        </Link>
+        </Link>F
       </View>
     </LinearGradient>
   );
