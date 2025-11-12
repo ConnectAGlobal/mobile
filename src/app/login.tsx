@@ -3,6 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter, Link } from "expo-router";
 
+interface Usuario {
+  nome: string;
+  email: string;
+  senha: string;
+  telefone: string;
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -15,19 +22,29 @@ export default function Login() {
     }
 
     try {
-      // Aqui você poderia fazer requisição à API
-      // Exemplo: const response = await api.post("/login", { email, senha });
+      const usuariosSalvos = await AsyncStorage.getItem("usuarios");
 
-      // Simulação de login bem-sucedido
-      const usuario = { email, token: "fakeToken123" };
+      if (!usuariosSalvos) {
+        Alert.alert("Erro", "Nenhum usuário cadastrado encontrado.");
+        return;
+      }
 
-      await AsyncStorage.setItem("usuario", JSON.stringify(usuario));
-      Alert.alert("Sucesso", "Login realizado com sucesso!");
+      const listaUsuarios: Usuario[] = JSON.parse(usuariosSalvos);
 
-      // Redireciona para a página mentorados
-      router.push("/mentorados");
+      const usuarioEncontrado = listaUsuarios.find(
+        (user) => user.email === email && user.senha === senha
+      );
+
+      if (usuarioEncontrado) {
+        await AsyncStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
+        Alert.alert("Sucesso", `Bem-vindo(a), ${usuarioEncontrado.nome}!`);
+        router.push("/mentorados");
+      } else {
+        Alert.alert("Erro", "E-mail ou senha incorretos.");
+      }
     } catch (error) {
-      Alert.alert("Erro", "Não foi possível realizar o login. Tente novamente.");
+      console.error("Erro ao fazer login:", error);
+      Alert.alert("Erro", "Ocorreu um problema ao tentar realizar o login.");
     }
   };
 
@@ -63,7 +80,6 @@ export default function Login() {
         <Text style={styles.link}>Esqueceu sua senha?</Text>
       </TouchableOpacity>
 
-      {/* Link para cadastro */}
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Não tem conta?</Text>
         <Link href="/cadastro" asChild>

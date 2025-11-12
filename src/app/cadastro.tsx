@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useRouter, Link } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Cadastro() {
   const router = useRouter();
@@ -10,17 +11,38 @@ export default function Cadastro() {
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
 
-  const handleCadastro = () => {
+  const handleCadastro = async () => {
     if (!nome || !email || !senha || !telefone) {
       Alert.alert("Campos obrigatórios", "Por favor, preencha todos os campos.");
       return;
     }
 
-    // Aqui você pode fazer o POST para a API Java
-    Alert.alert("Cadastro realizado!", `Bem-vindo(a), ${nome}!`);
+    try {
+      // Cria um objeto com os dados do usuário
+      const novoUsuario = { nome, email, senha, telefone };
 
-    // Navega automaticamente para a tela de login
-    router.push("/login");
+      // Recupera usuários já salvos (se existirem)
+      const usuariosSalvos = await AsyncStorage.getItem("usuarios");
+      let listaUsuarios = [];
+
+      if (usuariosSalvos) {
+        listaUsuarios = JSON.parse(usuariosSalvos);
+      }
+
+      // Adiciona o novo usuário à lista
+      listaUsuarios.push(novoUsuario);
+
+      // Salva novamente no AsyncStorage
+      await AsyncStorage.setItem("usuarios", JSON.stringify(listaUsuarios));
+
+      Alert.alert("Cadastro realizado!", `Bem-vindo(a), ${nome}!`);
+
+      // Navega automaticamente para a tela de login
+      router.push("/login");
+    } catch (error) {
+      console.error("Erro ao salvar usuário:", error);
+      Alert.alert("Erro", "Não foi possível salvar os dados. Tente novamente.");
+    }
   };
 
   return (
@@ -67,7 +89,6 @@ export default function Cadastro() {
         <Text style={styles.buttonText}>Cadastrar</Text>
       </TouchableOpacity>
 
-      {/* Link para login */}
       <View style={styles.loginContainer}>
         <Text style={styles.loginText}>Já tem conta?</Text>
         <Link href="/login" asChild>

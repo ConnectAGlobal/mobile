@@ -96,7 +96,7 @@ function DrawerLayout() {
         <Drawer.Screen
           name="trilhas"
           options={{
-            title: "Trilhas de aprendizado",
+            title: "Trilhas de Aprendizado",
             drawerIcon: ({ color, size }) => (
               <Feather name="book-open" color={color} size={size} />
             ),
