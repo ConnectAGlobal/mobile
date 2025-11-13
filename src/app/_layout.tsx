@@ -48,10 +48,17 @@ function DrawerLayout() {
           }}
         />
         <Drawer.Screen
+          name="mentorDetalhes/[id]"
+          options={{
+            drawerItemStyle: { display: "none" },
+            headerShown: false,
+          }}
+        />
+        <Drawer.Screen
           name="cadastro"
           options={{
             headerShown: false,
-            drawerItemStyle: { display: 'none' }, 
+            drawerItemStyle: { display: 'none' },
             drawerIcon: ({ color, size }) => (
               <Feather name="home" color={color} size={size} />
             ),
