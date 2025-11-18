@@ -3,7 +3,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
-export const AUTH_URL = API_URL + "/auth";
+const AUTH_URL = API_URL + "/auth";
 
 export const login = async (email: string, senha: string) => {
     try {
