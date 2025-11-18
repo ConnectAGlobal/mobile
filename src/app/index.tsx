@@ -28,7 +28,7 @@ export default function Home() {
           <TouchableOpacity style={styles.startButton}>
             <Text style={styles.startButtonText}>Começar 🚀</Text>
           </TouchableOpacity>
-        </Link>F
+        </Link>
       </View>
     </LinearGradient>
   );
