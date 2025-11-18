@@ -74,11 +74,11 @@ export default function Login() {
 
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Não tem conta?</Text>
-        <Link href="/cadastro" asChild>
-          <TouchableOpacity>
-            <Text style={styles.registerLink}> Se registre agora</Text>
-          </TouchableOpacity>
-        </Link>
+        
+        <TouchableOpacity onPress={() => router.push('/cadastro')}>
+          <Text style={styles.registerLink}> Se registre agora</Text>
+        </TouchableOpacity>
+       
       </View>
     </View>
   );

@@ -25,4 +25,8 @@ export const register = async (nome: string, email: string, senha: string, telef
     return true;
 };
 
+export const logout = async () => {
+    await AsyncStorage.removeItem("token");
+};
+
 
