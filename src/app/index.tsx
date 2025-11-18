@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
+import { logout } from "../api/auth/auth";
 
 export default function Home() {
+
+  const router = useRouter();
+
   return (
     <LinearGradient
       colors={["#0077b6", "#00b4d8", "#90e0ef"]}
@@ -24,11 +28,10 @@ export default function Home() {
           inteligente, o ConnectA transforma experiência em oportunidade.
         </Text>
 
-        <Link href={"/login" as any} asChild>
-          <TouchableOpacity style={styles.startButton}>
-            <Text style={styles.startButtonText}>Começar 🚀</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity style={styles.startButton} onPress={() => router.push('/login')}>
+          <Text style={styles.startButtonText}>Começar 🚀</Text>
+        </TouchableOpacity>
+
       </View>
     </LinearGradient>
   );
