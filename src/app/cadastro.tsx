@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useRouter, Link } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { register } from "../api/auth/auth";
 
 export default function Cadastro() {
