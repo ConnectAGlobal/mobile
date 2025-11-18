@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useRouter, Link } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { register } from "../api/auth/auth";
 
 export default function Cadastro() {
   const router = useRouter();
@@ -10,33 +11,18 @@ export default function Cadastro() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [tipoPerfil, setTipoPerfil] = useState("mentorado"); // "mentor" ou "mentorado"
 
   const handleCadastro = async () => {
-    if (!nome || !email || !senha || !telefone) {
+    if (!nome || !email || !senha || !telefone || !tipoPerfil) {
       Alert.alert("Campos obrigatórios", "Por favor, preencha todos os campos.");
       return;
     }
 
     try {
-      // Cria um objeto com os dados do usuário
-      const novoUsuario = { nome, email, senha, telefone };
-
-      // Recupera usuários já salvos (se existirem)
-      const usuariosSalvos = await AsyncStorage.getItem("usuarios");
-      let listaUsuarios = [];
-
-      if (usuariosSalvos) {
-        listaUsuarios = JSON.parse(usuariosSalvos);
-      }
-
-      // Adiciona o novo usuário à lista
-      listaUsuarios.push(novoUsuario);
-
-      // Salva novamente no AsyncStorage
-      await AsyncStorage.setItem("usuarios", JSON.stringify(listaUsuarios));
-
+      
+      await register(nome, email, senha, telefone, tipoPerfil);
       Alert.alert("Cadastro realizado!", `Bem-vindo(a), ${nome}!`);
-
       // Navega automaticamente para a tela de login
       router.push("/login");
     } catch (error) {
@@ -83,6 +69,14 @@ export default function Cadastro() {
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Tipo de perfil (mentor ou mentorado)"
+        placeholderTextColor="#888"
+        value={tipoPerfil}
+        onChangeText={setTipoPerfil}
       />
 
       <TouchableOpacity style={styles.button} onPress={handleCadastro}>
