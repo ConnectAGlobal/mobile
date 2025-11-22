@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter, Link } from "expo-router";
+import { login } from "../api/auth/auth";
+
 
 interface Usuario {
   nome: string;
@@ -13,6 +15,7 @@ interface Usuario {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -20,33 +23,22 @@ export default function Login() {
       Alert.alert("Campos obrigatórios", "Por favor, preencha e-mail e senha.");
       return;
     }
-
-    try {
-      const usuariosSalvos = await AsyncStorage.getItem("usuarios");
-
-      if (!usuariosSalvos) {
-        Alert.alert("Erro", "Nenhum usuário cadastrado encontrado.");
-        return;
-      }
-
-      const listaUsuarios: Usuario[] = JSON.parse(usuariosSalvos);
-
-      const usuarioEncontrado = listaUsuarios.find(
-        (user) => user.email === email && user.senha === senha
-      );
-
-      if (usuarioEncontrado) {
-        await AsyncStorage.setItem("usuarioLogado", JSON.stringify(usuarioEncontrado));
-        Alert.alert("Sucesso", `Bem-vindo(a), ${usuarioEncontrado.nome}!`);
-        router.push("/mentorados");
-      } else {
-        Alert.alert("Erro", "E-mail ou senha incorretos.");
-      }
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      Alert.alert("Erro", "Ocorreu um problema ao tentar realizar o login.");
-    }
+    await login(email, senha)
+    setEmail("");
+    setSenha("")
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        router.push('/trilhas');
+      }
+    };
+    checkToken();
+  }, [handleLogin, []]);
+
+
 
   return (
     <View style={styles.container}>
@@ -82,11 +74,11 @@ export default function Login() {
 
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>Não tem conta?</Text>
-        <Link href="/cadastro" asChild>
-          <TouchableOpacity>
-            <Text style={styles.registerLink}> Se registre agora</Text>
-          </TouchableOpacity>
-        </Link>
+        
+        <TouchableOpacity onPress={() => router.push('/cadastro')}>
+          <Text style={styles.registerLink}> Se registre agora</Text>
+        </TouchableOpacity>
+       
       </View>
     </View>
   );

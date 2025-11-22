@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,48 +7,37 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { findMentors } from "../api/mentors/findMentors";
 
-interface Mentor {
+export interface Mentor {
   id: string;
   nome: string;
-  area: string;
+  telefone: string;
   email: string;
-  descricao: string;
+  tipoPerfil: string;
+  ativo: boolean;
 }
 
 export default function Mentores() {
   const router = useRouter();
 
-  // Lista de mentores (mockada)
-  const [mentores] = useState<Mentor[]>([
-    {
-      id: "1",
-      nome: "Ana Silva",
-      area: "Tecnologia",
-      email: "ana.silva@email.com",
-      descricao:
-        "Engenheira de software com 8 anos de experiência em desenvolvimento mobile e web.",
-    },
-    {
-      id: "2",
-      nome: "Carlos Souza",
-      area: "Design",
-      email: "carlos.souza@email.com",
-      descricao:
-        "Designer UX/UI apaixonado por criar experiências intuitivas e acessíveis.",
-    },
-    {
-      id: "3",
-      nome: "Mariana Rocha",
-      area: "Marketing",
-      email: "mariana.rocha@email.com",
-      descricao:
-        "Especialista em marketing digital e gestão de mídias sociais.",
-    },
-  ]);
+  useEffect(() => {
+    const mentors = async () => {
+    const mentor = await findMentors()
+    console.log(mentor);
+    setMentores(mentor);
+    };
+    mentors();
+  }, []);
+  
+
+
+  const [mentores, setMentores] = useState<Mentor[]>([]);
+
 
   const handleVerPerfil = (mentor: Mentor) => {
-   router.push({ pathname: "/mentorDetalhes/[id]", params: { id: mentor.id } } as any);
+    console.log(mentor.id);
+    router.push({ pathname: "/mentorDetalhes/[id]", params: { id: mentor.id } } as any);
   };
 
   const handleQueroSerMentor = () => {
@@ -74,7 +63,7 @@ export default function Mentores() {
           <View style={styles.card}>
             <View>
               <Text style={styles.name}>{item.nome}</Text>
-              <Text style={styles.area}>{item.area}</Text>
+              <Text style={styles.area}>{item.telefone}</Text>
             </View>
             <TouchableOpacity
               style={styles.viewButton}

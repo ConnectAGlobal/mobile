@@ -1,39 +1,30 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
+import { findMentorById, findMentors } from "@/src/api/mentors/findMentors";
+import { useEffect, useState } from "react";
+import { Mentor } from "../mentores";
+
 export default function MentorDetalhes() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  // Lista simulada (poderia vir de uma API ou AsyncStorage)
-  const mentores = [
-    {
-      id: "1",
-      nome: "Ana Silva",
-      area: "Tecnologia",
-      email: "ana.silva@email.com",
-      descricao:
-        "Engenheira de software com 8 anos de experiência em desenvolvimento mobile e web.",
-    },
-    {
-      id: "2",
-      nome: "Carlos Souza",
-      area: "Design",
-      email: "carlos.souza@email.com",
-      descricao:
-        "Designer UX/UI apaixonado por criar experiências intuitivas e acessíveis.",
-    },
-    {
-      id: "3",
-      nome: "Mariana Rocha",
-      area: "Marketing",
-      email: "mariana.rocha@email.com",
-      descricao:
-        "Especialista em marketing digital e gestão de mídias sociais.",
-    },
-  ];
+  const [mentor, setMentor] = useState<Mentor | null>(null);
 
-  const mentor = mentores.find((m) => m.id === id);
+  useEffect(() => {
+    const fetchMentor = async () => {
+      if (id) {
+        try {
+          const data = await findMentorById(id as string);
+          setMentor(data);
+        } catch (error) {
+          console.error("Erro ao buscar mentor:", error);
+        }
+      }
+    };
+
+    fetchMentor();
+  }, [id]);
 
   if (!mentor) {
     return (
@@ -53,9 +44,9 @@ export default function MentorDetalhes() {
   return (
     <View style={styles.container}>
       <Text style={styles.name}>{mentor.nome}</Text>
-      <Text style={styles.area}>{mentor.area}</Text>
+      <Text style={styles.area}>{mentor.telefone}</Text>
       <Text style={styles.email}>{mentor.email}</Text>
-      <Text style={styles.description}>{mentor.descricao}</Text>
+      <Text style={styles.description}>{mentor.tipoPerfil}</Text>
 
       <TouchableOpacity style={styles.button} onPress={handleMensagem}>
         <Text style={styles.buttonText}>Enviar mensagem</Text>
