@@ -2,7 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 
 export default function Commit() {
-  const [hash, setHash] = useState("abc1234");
+  const [hash, setHash] = useState("f89e4ef355afe5e490d7262ace65ccb130809daa");
 
   return (
     <View style={styles.container}>
